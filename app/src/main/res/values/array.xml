@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="type_document_array">
+        <item>Masculino</item>
+        <item>Femenino</item>
+    </array>
+</resources>

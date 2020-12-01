@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.fragments.PedirPrestamos">
+
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/text_title"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/editText_nombre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:ems="10"
+        android:hint="@string/text_name"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+    <EditText
+        android:id="@+id/editText_apellido"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:ems="10"
+        android:hint="@string/text_apellido"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="@+id/editText_nombre"
+        app:layout_constraintStart_toStartOf="@+id/editText_nombre"
+        app:layout_constraintTop_toBottomOf="@+id/editText_nombre" />
+
+    <EditText
+        android:id="@+id/editText_mail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:ems="10"
+        android:hint="@string/text_mail"
+        android:inputType="textEmailAddress"
+        app:layout_constraintEnd_toEndOf="@+id/editText_apellido"
+        app:layout_constraintStart_toStartOf="@+id/editText_apellido"
+        app:layout_constraintTop_toBottomOf="@+id/spinner_type_doc" />
+
+    <EditText
+        android:id="@+id/editText_docNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:ems="10"
+        android:hint="@string/text_docNumber"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="@+id/editText_mail"
+        app:layout_constraintStart_toStartOf="@+id/editText_mail"
+        app:layout_constraintTop_toBottomOf="@+id/editText_mail" />
+
+    <Button
+        android:id="@+id/button_enviar_peticion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/boton_enviar_peticion"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <Spinner
+        android:id="@+id/spinner_type_doc"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="@+id/editText_apellido"
+        app:layout_constraintStart_toStartOf="@+id/editText_apellido"
+        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:hint="@string/text_genero"
+        android:textSize="20dp"
+        app:layout_constraintStart_toStartOf="@+id/editText_apellido"
+        app:layout_constraintTop_toBottomOf="@+id/editText_apellido" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">ProyectoEntrevista</string>
+
+    <!-- FRAGMENT HOME -->
+    <string name="boton_pedir_prestamo">Pedir préstamos</string>
+    <string name="boton_ver_peticiones">Ver peticiones</string>
+
+    <!-- FRAGMENT PEDIR PRESTAMO -->
+    <string name="text_title">SOLICITAR NUEVO PRESTAMO</string>
+    <string name="text_name">Nombre</string>
+    <string name="text_apellido">Apellido</string>
+    <string name="text_genero">Género</string>
+    <string name="text_mail">Email</string>
+    <string name="text_docNumber">Número de Documento</string>
+    <string name="boton_enviar_peticion">Solicitar Préstamo</string>
+
+
+</resources>
