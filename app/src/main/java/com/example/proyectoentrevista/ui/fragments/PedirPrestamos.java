@@ -10,20 +10,30 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.example.proyectoentrevista.R;
 import com.example.proyectoentrevista.ui.BaseFragment;
 import com.example.proyectoentrevista.utils.ScreenFactory;
+import com.example.proyectoentrevista.utils.Utils;
 
 
-public class PedirPrestamos extends BaseFragment {
+public class PedirPrestamos extends BaseFragment implements View.OnClickListener, AdapterView.OnItemSelectedListener {
 
     private View view;
     private TypedArray mTypedArrayDocument;
     private Spinner mTypeDoc;
+    private EditText textoNombre;
+    private EditText textoApellido;
+    private EditText textoMail;
+    private EditText textoDocNumber;
+    private Button botonEnviarPeticion;
+    private int typeGeneroSelected = -1;
+    private String typeGeneroField;
 
     public static PedirPrestamos newInstance() {
         return new PedirPrestamos();
@@ -49,7 +59,12 @@ public class PedirPrestamos extends BaseFragment {
 
     private void initButtons(){
         mTypeDoc = (Spinner) view.findViewById(R.id.spinner_type_doc);
-
+        textoNombre = (EditText) view.findViewById(R.id.editText_nombre);
+        textoApellido = (EditText) view.findViewById(R.id.editText_apellido);
+        textoMail = (EditText) view.findViewById(R.id.editText_mail);
+        textoDocNumber = (EditText) view.findViewById(R.id.editText_docNumber);
+        botonEnviarPeticion = (Button) view.findViewById(R.id.button_enviar_peticion);
+        botonEnviarPeticion.setOnClickListener(this);
 
         mTypedArrayDocument = getActivity().getResources().obtainTypedArray(R.array.type_document_array);
         int size = mTypedArrayDocument.length();
@@ -58,12 +73,9 @@ public class PedirPrestamos extends BaseFragment {
             array[i] = mTypedArrayDocument.getString(i);
         }
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_spinner_item,array);
-//        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this.getActivity(),
-//                R.array.type_document_array, android.R.layout.simple_spinner_item);
-        // Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // Apply the adapter to the spinner
-        this.mTypeDoc.setAdapter(adapter);
+        mTypeDoc.setAdapter(adapter);
+        mTypeDoc.setOnItemSelectedListener(this);
 
     }
 
@@ -71,5 +83,45 @@ public class PedirPrestamos extends BaseFragment {
     public void onBackPressed(Context context) {
         super.onBackPressed(context);
         showScreen(ScreenFactory.SCREEN.HOME,null);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.button_enviar_peticion:
+                if(verificarDatos()){
+                    System.out.println("LLAMAR SERVICIO");
+                }else{
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                    builder.setMessage("Error en los datos ingresados.");
+                    builder.setPositiveButton("Aceptar", null);
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                }
+                break;
+
+        }
+    }
+
+    private boolean verificarDatos(){
+        if(!textoNombre.getText().toString().isEmpty() && !textoApellido.getText().toString().isEmpty() &&
+        !textoMail.getText().toString().isEmpty() && !textoDocNumber.getText().toString().isEmpty()
+        && Utils.validEmail(textoMail.getText().toString())){
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        TypedArray typedArray = getActivity().getResources().obtainTypedArray(R.array.type_document_array);
+        typeGeneroSelected = position;
+        typeGeneroField = typedArray.getString(position);
+        System.out.println(typeGeneroField);
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
     }
 }
