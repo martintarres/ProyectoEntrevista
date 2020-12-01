@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.example.proyectoentrevista.R;
+import com.example.proyectoentrevista.network.PrestamosLoader;
 
 
 public abstract class BaseActivity extends AppCompatActivity {
@@ -17,10 +18,15 @@ public abstract class BaseActivity extends AppCompatActivity {
     private OnBackPressedListener mListener;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getLayout());
+
+
+
+
         if (savedInstanceState == null) {
             if (getFragment() != null) {
                 getSupportFragmentManager().beginTransaction()

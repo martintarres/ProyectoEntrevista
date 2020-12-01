@@ -17,9 +17,30 @@ import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.example.proyectoentrevista.R;
+import com.example.proyectoentrevista.network.AlmacenarDatos.AlmacenarDatosBody;
+import com.example.proyectoentrevista.network.AlmacenarDatos.AlmacenarResponse;
+import com.example.proyectoentrevista.network.PrestamoService;
+import com.example.proyectoentrevista.network.PrestamosLoader;
+import com.example.proyectoentrevista.network.SolicitarPrestamo.PrestamoResponse;
 import com.example.proyectoentrevista.ui.BaseFragment;
 import com.example.proyectoentrevista.utils.ScreenFactory;
 import com.example.proyectoentrevista.utils.Utils;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.concurrent.TimeUnit;
+
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.http.HEAD;
 
 
 public class PedirPrestamos extends BaseFragment implements View.OnClickListener, AdapterView.OnItemSelectedListener {
@@ -34,6 +55,7 @@ public class PedirPrestamos extends BaseFragment implements View.OnClickListener
     private Button botonEnviarPeticion;
     private int typeGeneroSelected = -1;
     private String typeGeneroField;
+    private PrestamosLoader loader;
 
     public static PedirPrestamos newInstance() {
         return new PedirPrestamos();
@@ -53,6 +75,8 @@ public class PedirPrestamos extends BaseFragment implements View.OnClickListener
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_pedir_prestamos, container, false);
         initButtons();
+
+
 
         return view;
     }
@@ -90,7 +114,60 @@ public class PedirPrestamos extends BaseFragment implements View.OnClickListener
         switch (v.getId()) {
             case R.id.button_enviar_peticion:
                 if(verificarDatos()){
-                    System.out.println("LLAMAR SERVICIO");
+
+                    loader = new PrestamosLoader("https://api.moni.com.ar/api/v4/scoring/");
+                    Call<PrestamoResponse> call = loader.solicitarPrestamo("ZGpzOTAzaWZuc2Zpb25kZnNubm5u",
+                            textoDocNumber.getText().toString());
+
+                    call.enqueue(new Callback<PrestamoResponse>() {
+                        @Override
+                        public void onResponse(Call<PrestamoResponse> call, Response<PrestamoResponse> response) {
+                            if(response.isSuccessful()){
+                                loader = new PrestamosLoader("https://wired-torus-98413.firebaseio.com/");
+
+                                AlmacenarDatosBody almacenarDatosBody = new AlmacenarDatosBody(
+                                        textoNombre.getText().toString(),
+                                        textoApellido.getText().toString(),
+                                        typeGeneroField,
+                                        textoMail.getText().toString(),
+                                        textoDocNumber.getText().toString(),
+                                        response.body().status
+                                );
+
+
+                                Call<AlmacenarResponse> call1 = loader.almacenarDatos(almacenarDatosBody);
+                                call1.enqueue(new Callback<AlmacenarResponse>() {
+                                    @Override
+                                    public void onResponse(Call<AlmacenarResponse> call, Response<AlmacenarResponse> response) {
+                                        if(response.isSuccessful()){
+
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<AlmacenarResponse> call, Throwable t) {
+                                        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                                        builder.setMessage("Error en la ejecucion del servicio.");
+                                        builder.setPositiveButton("Aceptar", null);
+                                        AlertDialog dialog = builder.create();
+                                        dialog.show();
+                                    }
+                                });
+
+
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<PrestamoResponse> call, Throwable t) {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                            builder.setMessage("Error en la ejecucion del servicio.");
+                            builder.setPositiveButton("Aceptar", null);
+                            AlertDialog dialog = builder.create();
+                            dialog.show();
+                        }
+                    });
+
                 }else{
                     AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                     builder.setMessage("Error en los datos ingresados.");

@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.example.proyectoentrevista.R;
+import com.example.proyectoentrevista.network.PrestamosLoader;
 import com.example.proyectoentrevista.ui.BaseFragment;
 import com.example.proyectoentrevista.utils.ScreenFactory;
 
@@ -16,6 +17,7 @@ public class Home extends BaseFragment implements View.OnClickListener {
     private Button pedirPrestamo;
     private Button verSolicitudes;
     private View view;
+
 
     public static Home newInstance() {
         return new Home();
@@ -37,6 +39,7 @@ public class Home extends BaseFragment implements View.OnClickListener {
 
         initButtons();
 
+
         return view;
     }
 
@@ -46,6 +49,8 @@ public class Home extends BaseFragment implements View.OnClickListener {
 
         pedirPrestamo.setOnClickListener(this);
         verSolicitudes.setOnClickListener(this);
+
+
     }
 
 
