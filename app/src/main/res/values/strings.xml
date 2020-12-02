@@ -14,5 +14,9 @@
     <string name="text_docNumber">Número de Documento</string>
     <string name="boton_enviar_peticion">Solicitar Préstamo</string>
 
+    <!-- FRAGMENT VER SOLICITUDES -->
+    <string name="text_name_sol">Nombre:</string>
+    <string name="text_apellido_sol">Apellido:</string>
+
 
 </resources>

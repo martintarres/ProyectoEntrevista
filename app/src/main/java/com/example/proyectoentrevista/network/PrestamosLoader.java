@@ -61,5 +61,10 @@ public class PrestamosLoader implements PrestamoService{
         return service.almacenarDatos(body);
     }
 
+    @Override
+    public Call<AlmacenarResponse> borrarDatos(AlmacenarDatosBody body) {
+        return service.borrarDatos(body);
+    }
+
 
 }

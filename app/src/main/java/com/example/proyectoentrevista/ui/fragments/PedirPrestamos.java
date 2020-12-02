@@ -2,6 +2,8 @@ package com.example.proyectoentrevista.ui.fragments;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.os.Bundle;
 
@@ -31,6 +33,7 @@ import com.google.gson.GsonBuilder;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
@@ -56,9 +59,20 @@ public class PedirPrestamos extends BaseFragment implements View.OnClickListener
     private int typeGeneroSelected = -1;
     private String typeGeneroField;
     private PrestamosLoader loader;
+    private AlmacenarDatosBody almacenarDatosBody;
+    private ArrayList<AlmacenarDatosBody> listDatos;
+
+    private String nameTemp;
+    private String lastTemp;
+    private String genderTemp;
+    private String emailTemp;
+    private String dniTemp;
+    private String position;
+
 
     public static PedirPrestamos newInstance() {
-        return new PedirPrestamos();
+        PedirPrestamos fragment = new PedirPrestamos();
+        return fragment;
     }
 
     public PedirPrestamos() {
@@ -68,6 +82,16 @@ public class PedirPrestamos extends BaseFragment implements View.OnClickListener
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if(!getArguments().getString("name").isEmpty()){
+            nameTemp = getArguments().getString("name");
+            lastTemp = getArguments().getString("last");
+            genderTemp = getArguments().getString("gender");
+            emailTemp = getArguments().getString("email");
+            dniTemp = getArguments().getString("dni");
+            position = getArguments().getString("position");
+        }
+
     }
 
     @Override
@@ -76,8 +100,9 @@ public class PedirPrestamos extends BaseFragment implements View.OnClickListener
         view = inflater.inflate(R.layout.fragment_pedir_prestamos, container, false);
         initButtons();
 
-
-
+        if(nameTemp != null && !nameTemp.isEmpty()){
+            setDatosEdit();
+        }
         return view;
     }
 
@@ -101,6 +126,20 @@ public class PedirPrestamos extends BaseFragment implements View.OnClickListener
         mTypeDoc.setAdapter(adapter);
         mTypeDoc.setOnItemSelectedListener(this);
 
+        listDatos = new ArrayList<AlmacenarDatosBody>();
+
+    }
+
+    private void setDatosEdit(){
+        textoNombre.setText(nameTemp);
+        textoApellido.setText(lastTemp);
+        textoMail.setText(emailTemp);
+        textoDocNumber.setText(dniTemp);
+        if(genderTemp.equals("Masculino")){
+            mTypeDoc.setSelection(0);
+        }else{
+            mTypeDoc.setSelection(1);
+        }
     }
 
     @Override
@@ -114,7 +153,6 @@ public class PedirPrestamos extends BaseFragment implements View.OnClickListener
         switch (v.getId()) {
             case R.id.button_enviar_peticion:
                 if(verificarDatos()){
-
                     loader = new PrestamosLoader("https://api.moni.com.ar/api/v4/scoring/");
                     Call<PrestamoResponse> call = loader.solicitarPrestamo("ZGpzOTAzaWZuc2Zpb25kZnNubm5u",
                             textoDocNumber.getText().toString());
@@ -125,7 +163,7 @@ public class PedirPrestamos extends BaseFragment implements View.OnClickListener
                             if(response.isSuccessful()){
                                 loader = new PrestamosLoader("https://wired-torus-98413.firebaseio.com/");
 
-                                AlmacenarDatosBody almacenarDatosBody = new AlmacenarDatosBody(
+                                almacenarDatosBody = new AlmacenarDatosBody(
                                         textoNombre.getText().toString(),
                                         textoApellido.getText().toString(),
                                         typeGeneroField,
@@ -134,13 +172,31 @@ public class PedirPrestamos extends BaseFragment implements View.OnClickListener
                                         response.body().status
                                 );
 
+                                listDatos=getData();
+                                if(position != null ){
+                                    listDatos.remove(Integer.parseInt(position));
+                                }
+                                if(listDatos == null){
+                                    listDatos = new ArrayList<AlmacenarDatosBody>();
+                                }
+                                listDatos.add(almacenarDatosBody);
+                                putData(listDatos);
 
                                 Call<AlmacenarResponse> call1 = loader.almacenarDatos(almacenarDatosBody);
                                 call1.enqueue(new Callback<AlmacenarResponse>() {
                                     @Override
                                     public void onResponse(Call<AlmacenarResponse> call, Response<AlmacenarResponse> response) {
                                         if(response.isSuccessful()){
-
+                                            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                                            builder.setMessage("Solicitud enviada.");
+                                            builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    showScreen(ScreenFactory.SCREEN.HOME,null);
+                                                }
+                                            });
+                                            AlertDialog dialog = builder.create();
+                                            dialog.show();
                                         }
                                     }
 

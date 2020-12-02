@@ -8,6 +8,7 @@ import org.json.JSONObject;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
@@ -25,4 +26,11 @@ public interface PrestamoService {
     Call<AlmacenarResponse> almacenarDatos(
             @Body AlmacenarDatosBody body
     );
+
+    @DELETE("{users.json}")
+    Call<AlmacenarResponse> borrarDatos(
+            @Path("users.json") AlmacenarDatosBody users
+    );
+
+
 }

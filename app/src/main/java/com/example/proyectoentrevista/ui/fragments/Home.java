@@ -58,7 +58,9 @@ public class Home extends BaseFragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.button_pedir_prestamo:
-                showScreen(ScreenFactory.SCREEN.PEDIRPRESTAMO,null);
+                Bundle bundle = new Bundle();
+                bundle.putString("name", "" );
+                showScreen(ScreenFactory.SCREEN.PEDIRPRESTAMO,bundle);
                 break;
             case R.id.button_ver_peticiones:
                 showScreen(ScreenFactory.SCREEN.VERPETICIONES,null);
