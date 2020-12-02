@@ -187,6 +187,7 @@ public class PedirPrestamos extends BaseFragment implements View.OnClickListener
 
                                     @Override
                                     public void onFailure(Call<AlmacenarResponse> call, Throwable t) {
+                                        mProgressDialog.dismiss();
                                         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                                         builder.setMessage("Error en la ejecucion del servicio.");
                                         builder.setPositiveButton("Aceptar", null);
@@ -201,6 +202,7 @@ public class PedirPrestamos extends BaseFragment implements View.OnClickListener
 
                         @Override
                         public void onFailure(Call<PrestamoResponse> call, Throwable t) {
+                            mProgressDialog.dismiss();
                             AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                             builder.setMessage("Error en la ejecucion del servicio.");
                             builder.setPositiveButton("Aceptar", null);
@@ -210,6 +212,7 @@ public class PedirPrestamos extends BaseFragment implements View.OnClickListener
                     });
 
                 }else{
+                    mProgressDialog.dismiss();
                     AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                     builder.setMessage("Error en los datos ingresados.");
                     builder.setPositiveButton("Aceptar", null);
