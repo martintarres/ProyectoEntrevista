@@ -5,10 +5,6 @@ import com.example.proyectoentrevista.network.AlmacenarDatos.AlmacenarResponse;
 import com.example.proyectoentrevista.network.SolicitarPrestamo.PrestamoResponse;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
-import org.json.JSONObject;
-
-import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
@@ -20,13 +16,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class PrestamosLoader implements PrestamoService{
 
     private PrestamoService service;
-    private String URL;
 
 
     public PrestamosLoader(String URL) {
-
-        this.URL = URL;
-
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         logging.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
@@ -61,10 +53,6 @@ public class PrestamosLoader implements PrestamoService{
         return service.almacenarDatos(body);
     }
 
-    @Override
-    public Call<AlmacenarResponse> borrarDatos(AlmacenarDatosBody body) {
-        return service.borrarDatos(body);
-    }
 
 
 }

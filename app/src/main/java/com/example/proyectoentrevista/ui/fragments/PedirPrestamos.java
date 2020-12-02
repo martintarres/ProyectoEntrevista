@@ -4,12 +4,8 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,46 +14,30 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-
 import com.example.proyectoentrevista.R;
 import com.example.proyectoentrevista.network.AlmacenarDatos.AlmacenarDatosBody;
 import com.example.proyectoentrevista.network.AlmacenarDatos.AlmacenarResponse;
-import com.example.proyectoentrevista.network.PrestamoService;
+
 import com.example.proyectoentrevista.network.PrestamosLoader;
 import com.example.proyectoentrevista.network.SolicitarPrestamo.PrestamoResponse;
 import com.example.proyectoentrevista.ui.BaseFragment;
 import com.example.proyectoentrevista.utils.ScreenFactory;
 import com.example.proyectoentrevista.utils.Utils;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
-
-import okhttp3.OkHttpClient;
-import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
-import retrofit2.http.HEAD;
 
 
 public class PedirPrestamos extends BaseFragment implements View.OnClickListener, AdapterView.OnItemSelectedListener {
 
     private View view;
-    private TypedArray mTypedArrayDocument;
-    private Spinner mTypeDoc;
+    private Spinner mTypeGender;
     private EditText textoNombre;
     private EditText textoApellido;
     private EditText textoMail;
     private EditText textoDocNumber;
     private Button botonEnviarPeticion;
-    private int typeGeneroSelected = -1;
     private String typeGeneroField;
     private PrestamosLoader loader;
     private AlmacenarDatosBody almacenarDatosBody;
@@ -74,8 +54,7 @@ public class PedirPrestamos extends BaseFragment implements View.OnClickListener
 
 
     public static PedirPrestamos newInstance() {
-        PedirPrestamos fragment = new PedirPrestamos();
-        return fragment;
+        return new PedirPrestamos();
     }
 
     public PedirPrestamos() {
@@ -110,7 +89,7 @@ public class PedirPrestamos extends BaseFragment implements View.OnClickListener
     }
 
     private void initButtons(){
-        mTypeDoc = (Spinner) view.findViewById(R.id.spinner_type_doc);
+        mTypeGender = (Spinner) view.findViewById(R.id.spinner_type_doc);
         textoNombre = (EditText) view.findViewById(R.id.editText_nombre);
         textoApellido = (EditText) view.findViewById(R.id.editText_apellido);
         textoMail = (EditText) view.findViewById(R.id.editText_mail);
@@ -118,16 +97,16 @@ public class PedirPrestamos extends BaseFragment implements View.OnClickListener
         botonEnviarPeticion = (Button) view.findViewById(R.id.button_enviar_peticion);
         botonEnviarPeticion.setOnClickListener(this);
 
-        mTypedArrayDocument = getActivity().getResources().obtainTypedArray(R.array.type_document_array);
-        int size = mTypedArrayDocument.length();
+        TypedArray mTypedArrayGender = getActivity().getResources().obtainTypedArray(R.array.type_document_array);
+        int size = mTypedArrayGender.length();
         String[] array = new String[size];
         for(int i = 0; i < size ; i++){
-            array[i] = mTypedArrayDocument.getString(i);
+            array[i] = mTypedArrayGender.getString(i);
         }
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_spinner_item,array);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        mTypeDoc.setAdapter(adapter);
-        mTypeDoc.setOnItemSelectedListener(this);
+        mTypeGender.setAdapter(adapter);
+        mTypeGender.setOnItemSelectedListener(this);
 
         listDatos = new ArrayList<AlmacenarDatosBody>();
 
@@ -139,9 +118,9 @@ public class PedirPrestamos extends BaseFragment implements View.OnClickListener
         textoMail.setText(emailTemp);
         textoDocNumber.setText(dniTemp);
         if(genderTemp.equals("Masculino")){
-            mTypeDoc.setSelection(0);
+            mTypeGender.setSelection(0);
         }else{
-            mTypeDoc.setSelection(1);
+            mTypeGender.setSelection(1);
         }
     }
 
@@ -254,7 +233,6 @@ public class PedirPrestamos extends BaseFragment implements View.OnClickListener
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         TypedArray typedArray = getActivity().getResources().obtainTypedArray(R.array.type_document_array);
-        typeGeneroSelected = position;
         typeGeneroField = typedArray.getString(position);
         System.out.println(typeGeneroField);
     }

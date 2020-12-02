@@ -5,17 +5,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-
 import com.example.proyectoentrevista.R;
-import com.example.proyectoentrevista.network.PrestamosLoader;
 import com.example.proyectoentrevista.ui.BaseFragment;
 import com.example.proyectoentrevista.utils.ScreenFactory;
 
 
 public class Home extends BaseFragment implements View.OnClickListener {
 
-    private Button pedirPrestamo;
-    private Button verSolicitudes;
     private View view;
 
 
@@ -44,8 +40,8 @@ public class Home extends BaseFragment implements View.OnClickListener {
     }
 
     private void initButtons(){
-        pedirPrestamo = (Button) view.findViewById(R.id.button_pedir_prestamo);
-        verSolicitudes = (Button) view.findViewById(R.id.button_ver_peticiones);
+        Button pedirPrestamo = (Button) view.findViewById(R.id.button_pedir_prestamo);
+        Button verSolicitudes = (Button) view.findViewById(R.id.button_ver_peticiones);
 
         pedirPrestamo.setOnClickListener(this);
         verSolicitudes.setOnClickListener(this);

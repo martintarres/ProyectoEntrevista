@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.example.proyectoentrevista.R;
-import com.example.proyectoentrevista.network.PrestamosLoader;
 
 
 public abstract class BaseActivity extends AppCompatActivity {
@@ -14,7 +13,6 @@ public abstract class BaseActivity extends AppCompatActivity {
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
     protected ScreenFactory.SCREEN mScreenEnum;
-    private Fragment mFragment;
     private OnBackPressedListener mListener;
 
 
@@ -39,12 +37,12 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     public void showScreen(ScreenFactory.SCREEN screenEnum, Bundle params) {
         if (screenEnum != null) {
-            this.mFragment = ScreenFactory.getInstance().getScreen(screenEnum);
+            Fragment mFragment = ScreenFactory.getInstance().getScreen(screenEnum);
             if (params != null) {
                 mFragment.setArguments(params);
             }
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.container, this.mFragment, this.mFragment.getClass().getName()).commitAllowingStateLoss();
+                    .replace(R.id.container, mFragment, mFragment.getClass().getName()).commitAllowingStateLoss();
             this.mScreenEnum = screenEnum;
         }
     }

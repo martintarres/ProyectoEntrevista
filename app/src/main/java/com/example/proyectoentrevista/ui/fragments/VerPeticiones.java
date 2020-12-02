@@ -3,7 +3,6 @@ package com.example.proyectoentrevista.ui.fragments;
 import android.content.Context;
 import android.os.Bundle;
 
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -14,12 +13,9 @@ import android.widget.TextView;
 
 import com.example.proyectoentrevista.Adapter.SolicitudesAdapter;
 import com.example.proyectoentrevista.R;
-import com.example.proyectoentrevista.network.AlmacenarDatos.AlmacenarDatosBody;
 import com.example.proyectoentrevista.ui.BaseFragment;
 import com.example.proyectoentrevista.utils.ScreenFactory;
 
-import java.awt.font.TextAttribute;
-import java.util.ArrayList;
 
 
 public class VerPeticiones extends BaseFragment {

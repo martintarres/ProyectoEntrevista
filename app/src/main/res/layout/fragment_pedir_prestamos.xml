@@ -71,8 +71,12 @@
         android:id="@+id/button_enviar_peticion"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
         android:text="@string/boton_enviar_peticion"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Spinner
         android:id="@+id/spinner_type_doc"
@@ -88,7 +92,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:hint="@string/text_genero"
-        android:textSize="20dp"
+        android:textSize="18dp"
         app:layout_constraintStart_toStartOf="@+id/editText_apellido"
         app:layout_constraintTop_toBottomOf="@+id/editText_apellido" />
 
