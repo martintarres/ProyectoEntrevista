@@ -1,41 +1,28 @@
 package com.example.proyectoentrevista.Adapter;
 
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.proyectoentrevista.R;
 import com.example.proyectoentrevista.network.AlmacenarDatos.AlmacenarDatosBody;
 import com.example.proyectoentrevista.ui.fragments.VerPeticiones;
 import com.example.proyectoentrevista.utils.ScreenFactory;
-
-import java.awt.font.TextAttribute;
 import java.util.ArrayList;
 
 
 
 public class SolicitudesAdapter extends RecyclerView.Adapter<PeticionesHolder> {
 
-    private ArrayList<AlmacenarDatosBody> listaPeticiones;
-    private TextView nombreAdapter;
-    private TextView apellidoAdapter;
-    private Button editarAdapter;
-    private Button eliminarAdapter;
-    private View viewVerPeticiones;
-    private RecyclerView peticiones;
-    private Fragment fragment;
-    private TextView vacio;
+    private final ArrayList<AlmacenarDatosBody> listaPeticiones;
+    private final View viewVerPeticiones;
+    private final RecyclerView peticiones;
+    private final Fragment fragment;
+    private final TextView vacio;
 
     public SolicitudesAdapter(ArrayList<AlmacenarDatosBody> listaPeticiones, View viewVerPeticiones,
                               RecyclerView peticiones, Fragment fragment, TextView vacio){
@@ -44,10 +31,6 @@ public class SolicitudesAdapter extends RecyclerView.Adapter<PeticionesHolder> {
         this.peticiones = peticiones;
         this.fragment = fragment;
         this.vacio=vacio;
-        nombreAdapter = viewVerPeticiones.findViewById(R.id.textView_nombre_adapter);
-        apellidoAdapter = viewVerPeticiones.findViewById(R.id.textView_apellido_adapter);
-        editarAdapter = viewVerPeticiones.findViewById(R.id.button_editar_adapter);
-        eliminarAdapter = viewVerPeticiones.findViewById(R.id.button_eliminar_adapter);
 
         if(listaPeticiones != null && !listaPeticiones.isEmpty()){
             peticiones.setVisibility(View.VISIBLE);

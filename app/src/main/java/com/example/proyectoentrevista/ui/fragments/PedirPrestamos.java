@@ -1,6 +1,7 @@
 package com.example.proyectoentrevista.ui.fragments;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
@@ -68,6 +69,8 @@ public class PedirPrestamos extends BaseFragment implements View.OnClickListener
     private String emailTemp;
     private String dniTemp;
     private String position;
+
+    private ProgressDialog mProgressDialog;
 
 
     public static PedirPrestamos newInstance() {
@@ -152,6 +155,8 @@ public class PedirPrestamos extends BaseFragment implements View.OnClickListener
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.button_enviar_peticion:
+                 mProgressDialog = ProgressDialog.show(getActivity(), null, null);;
+
                 if(verificarDatos()){
                     loader = new PrestamosLoader("https://api.moni.com.ar/api/v4/scoring/");
                     Call<PrestamoResponse> call = loader.solicitarPrestamo("ZGpzOTAzaWZuc2Zpb25kZnNubm5u",
@@ -187,6 +192,7 @@ public class PedirPrestamos extends BaseFragment implements View.OnClickListener
                                     @Override
                                     public void onResponse(Call<AlmacenarResponse> call, Response<AlmacenarResponse> response) {
                                         if(response.isSuccessful()){
+                                            mProgressDialog.dismiss();
                                             AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                                             builder.setMessage("Solicitud enviada.");
                                             builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {

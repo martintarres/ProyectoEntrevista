@@ -3,7 +3,7 @@
 
     <!-- FRAGMENT HOME -->
     <string name="boton_pedir_prestamo">Pedir préstamos</string>
-    <string name="boton_ver_peticiones">Ver peticiones</string>
+    <string name="boton_ver_peticiones">Ver solicitudes</string>
 
     <!-- FRAGMENT PEDIR PRESTAMO -->
     <string name="text_title">SOLICITAR NUEVO PRESTAMO</string>
